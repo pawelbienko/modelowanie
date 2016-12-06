@@ -1,7 +1,7 @@
 ---
 ip: "192.168.10.10"
-memory: 512
-cpus: 1
+memory: 1024
+cpus: 2
 hostname: modelowanie
 name: modelowanie
 provider: virtualbox
@@ -12,8 +12,9 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "C:/Users/Pawel/modelowanie"
-      to: "/home/vagrant/modelowanie"
+    - map: ~\modelowanie"
+      to: /home/vagrant/modelowanie
+      type: nfs
 
 sites:
     - map: homestead.app
