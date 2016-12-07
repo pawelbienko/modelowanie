@@ -9,6 +9,7 @@ parameters:
     locale: en
 
 framework:
+    translator: ~
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
@@ -106,3 +107,7 @@ assetic:
         jquery:
             inputs:
                 - %kernel.root_dir%/../vendor/components/jquery/jquery.js
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
