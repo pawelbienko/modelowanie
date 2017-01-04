@@ -1,0 +1,37 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::base.html.twig" %}
+{% block body %}
+<div class="container">
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    <!-- <form action="{{ path("fos_user_registration_register") }}" method="post" class="form-signin"> -->
+        <div class="login-container">
+            <h1>Zarejestruj się !</h1>
+
+                  {{ form_widget(form.username, { 'attr': {'class': 'form-control placeholder-no-fix', 'placeholder':'Nazwa'} }) }}
+                  {% for errorItem in form.username.vars.errors %}
+                  <span class="help-inline">{{ errorItem.message }}</span>
+                  {% endfor %}
+
+                  {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder':'E-mail'} }) }}
+                  {% for errorItem in form.email.vars.errors %}
+                  <span class="help-inline">{{ errorItem.message }}</span>
+                  {% endfor %}
+
+                  {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control', 'placeholder':'Hasło'} }) }}
+                  {% for errorItem in form.plainPassword.first.vars.errors %}
+                  <span class="help-inline">{{ errorItem.message }}</span>
+                  {% endfor %}
+
+                  {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control', 'placeholder':'Powtórz hasło'} }) }}
+                  {% for errorItem in form.plainPassword.second.vars.errors %}
+                  <span class="help-inline">{{ errorItem.message }}</span>
+                  {% endfor %}
+
+              <div class="form-actions">
+                  <a class="btn btn-default" href="{{ path('fos_user_security_login') }}">Logowanie</a>
+                  <button type="submit" id="register-submit-btn" class="btn btn-success">Submit</button>
+              </div>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock body %}

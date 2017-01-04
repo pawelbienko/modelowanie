@@ -79,6 +79,11 @@ assetic:
     filters:
         cssrewrite: ~
     assets:
+        login_css:
+            inputs:
+                - %kernel.root_dir%/Resources/public/css/login.css
+            filters: [cssrewrite]
+
         bootstrap_js:
             inputs:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/dist/js/bootstrap.min.js

@@ -32,8 +32,12 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ path('fos_user_registration_register') }}">Rejestracja</a></li>
-            <li><a href="{{ path('fos_user_security_login') }}">Logowanie</a></li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li><a href="{{ path('fos_user_security_logout') }}">Wyloguj</a></li>
+            {% else %}
+                <li><a href="{{ path('fos_user_registration_register') }}">Rejestracja</a></li>
+                <li><a href="{{ path('fos_user_security_login') }}">Logowanie</a></li>
+            {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
