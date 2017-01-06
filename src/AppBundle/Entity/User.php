@@ -19,9 +19,27 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $verifed;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        
+        $this->verifed = false;
+    }
+
+    public function setVerifed($boolean)
+    {
+        $this->verifed = (bool) $boolean;
+
+        return $this;
+    }
+
+    public function getVerifed()
+    {
+        return $this->verifed;
     }
 }
