@@ -1,27 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<h1>get all users</h1>
-
+	<table class="table">
+    <thead>
+      <tr>
+        <th>mazwa</th>
+        <th>email</th>
+        <th>włączony</th>
+        <th>zweryfikowany</th>
+        <th>role</th>
+        <th>akcje</th>
+      </tr>
+    </thead>
+    <tbody>
 	{% for user in users %}
-	<ul>
-		<li>
-			<a href="{{ path('users_remove', {'id': user.id}) }}">
-		        usuń
-		    </a>
-		</li>
-		<li>{{ user.username|e }}</li>
-		<li>{{ user.email|e }}</li>
-		<li>{{ user.enabled|e }}</li>
-		<li>{{ user.verifed|e }}</li>
-			{% for role in user.roles %}
-				<li>{{ role|e }}</li>
-			{% endfor %}
-		<li>
-			<a href="{{ path('users_edit', {'id': user.id}) }}">
-		        edytuj
-		    </a>
-		</li>
-	</ul>
+      	<tr>
+			<td>{{ user.username }}</td>
+			<td>{{ user.email }}</td>
+			<td>{% if user.enabled == false %}
+					nie
+				{% else %}
+				    tak
+				{% endif %}
+			</td>
+			<td>
+				{% if user.verifed == false %}
+					nie
+				{% else %}
+				    tak
+				{% endif %}
+			</td>
+			<td>
+				{% for role in user.roles %}
+					<li>{{ role }}</li>
+				{% endfor %}
+			<td>	
+			<td>
+				<div class="btn-group">
+					<a class="btn btn-primary" href="{{ path('users_edit', {'id': user.id}) }}">
+				        edytuj
+				    </a>
+				    <a class="btn btn-success" href="{{ path('users_remove', {'id': user.id}) }}">
+				        usuń
+				    </a>
+				</div>    
+			</td>
+		</tr>
 	{% endfor %}
 {% endblock %}

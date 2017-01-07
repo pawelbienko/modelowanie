@@ -79,6 +79,11 @@ assetic:
     filters:
         cssrewrite: ~
     assets:
+        main_css:
+            inputs:
+                - %kernel.root_dir%/Resources/public/css/main.css
+            filters: [cssrewrite]
+
         login_css:
             inputs:
                 - %kernel.root_dir%/Resources/public/css/login.css

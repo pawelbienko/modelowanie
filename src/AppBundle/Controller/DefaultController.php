@@ -58,6 +58,7 @@ dump($users);
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class)
+            ->add('email', TextType::class)
             ->add('verifed', ChoiceType::class, [
                 'choices'  => [
                     'tak' => true,
