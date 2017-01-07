@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Dodaj książkę</h1>
+	<a href="{{ path('users') }}"><- wróć</a>
+
+	{% form_theme form 'bootstrap_3_layout.html.twig' %}
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+{% endblock %}

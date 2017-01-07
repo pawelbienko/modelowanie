@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% if is_granted('ROLE_ADMIN') -%}
+	        <a class="btn btn-success" href="{{ path('books_add') }}">Dodaj Książkę</a>
+	{% endif %}
+
+	<table class="table">
+    <thead>
+      <tr>
+        <th>nazwa</th>
+        <th>email</th>
+        <th>włączony</th>
+        <th>zweryfikowany</th>
+        <th>role</th>
+        <th>akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+	{% for book in books %}
+      	<tr>
+			<td>{{ book.name }}</td>
+			<td>{{ book.description }}</td>
+			{# <td>{% if book.enabled == false %}
+					nie
+				{% else %}
+				    tak
+				{% endif %}
+			</td>
+			<td>
+				{% if book.verifed == false %}
+					nie
+				{% else %}
+				    tak
+				{% endif %}
+			</td>
+			<td>
+				{% for role in book.roles %}
+					<li>{{ role }}</li>
+				{% endfor %}
+			<td> #}	
+			<td>
+				<div class="btn-group">
+					<a class="btn btn-primary" href="{{ path('books_edit', {'id': book.id}) }}">
+				        edytuj
+				    </a>
+				    <a class="btn btn-success" href="{{ path('books_remove', {'id': book.id}) }}">
+				        usuń
+				    </a>
+				</div>    
+			</td>
+		</tr>
+	{% endfor %}
+{% endblock %}
