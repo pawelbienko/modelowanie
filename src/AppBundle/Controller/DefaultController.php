@@ -23,19 +23,19 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/users", name="users")
+     * @Route("/admin/users", name="users")
      */
     public function usersAction() {
         //access user manager services 
 
         $userManager = $this->get('fos_user.user_manager');
         $users = $userManager->findUsers();
-dump($users);
+        
         return $this->render('default/users.html.twig', array('users' => $users));
     }
 
     /**
-     * @Route("/users/remove/{id}", name="users_remove")
+     * @Route("/admin/users/remove/{id}", name="users_remove")
      */
     public function removeUserAction($id) {
         //access user manager services 
@@ -49,7 +49,7 @@ dump($users);
     }
 
     /**
-     * @Route("/users/edit/{id}", name="users_edit")
+     * @Route("admin/users/edit/{id}", name="users_edit")
      */
     public function editUserAction($id, Request $request) {
         //access user manager services 

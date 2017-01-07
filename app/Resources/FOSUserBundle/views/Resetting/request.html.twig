@@ -4,10 +4,16 @@
 {% block body %}
 <div class="container">
 	<div class="login-container">
-		<div class="fos_user_user_show">
-		    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-		    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-		</div>
+		<h1>Resetowanie hasła !</h1>
+		<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+		    <div>
+		        <label for="username">{{ 'resetting.request.username'|trans }}</label>
+		        <input type="text" id="username" name="username" required="required" />
+		    </div>
+		    <div>
+		        <input type="submit" value="{{ 'resetting.request.submit'|trans }}" />
+		    </div>
+		</form>
 	</div>
 </div>
 {% endblock body %}

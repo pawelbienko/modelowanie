@@ -25,6 +25,10 @@
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="{{ path('homepage') }}">Home</a></li>
+                {% if is_granted('ROLE_ADMIN') -%}
+                <li><a href="{{ path('users') }}">Users</a></li>
+                <li><a href="{{ path('books') }}">Książki</a></li>
+                {% endif%}
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
