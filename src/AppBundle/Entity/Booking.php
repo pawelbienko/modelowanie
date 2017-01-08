@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="booking")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Booking")
  */
 class Booking
 {
@@ -34,10 +35,22 @@ class Booking
     /**
      * @var AppBundle\Entity\Book
      *
-     * @ORM\ManyToOne(targetEntity="Booka", inversedBy="id")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="item")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
-    protected $item;    
+    protected $item;   
+
+    /**
+     * @var AppBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    protected $reserving;  
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $status;
 
     /**
      * Get id
@@ -69,6 +82,7 @@ class Booking
     {
         return $this->start;
     }
+
     /**
      * Set end
      *
@@ -88,5 +102,71 @@ class Booking
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * Set item
+     *
+     * @param  
+     * @return Booking
+     */
+    public function setItem(Book $item)
+    {
+        $this->item = $item;
+        return $this;
+    }
+    /**
+     * Get item
+     *
+     * @return 
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    /**
+     * Set item
+     *
+     * @param  
+     * @return Booking
+     */
+    public function setReserving(User $reserving)
+    {
+        $this->reserving = $reserving;
+        return $this;
+    }
+    /**
+     * Get item
+     *
+     * @return 
+     */
+    public function getReserving()
+    {
+        return $this->reserving;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Booking
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

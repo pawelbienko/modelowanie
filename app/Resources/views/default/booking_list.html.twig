@@ -2,22 +2,26 @@
 
 {% block body %}
 	{% if is_granted('ROLE_ADMIN') -%}
-	        <a class="btn btn-success" href="{{ path('books_add') }}">Dodaj Książkę</a>
+	        <a class="btn btn-success" href="{{ path('books') }}">Wypożycz kolejną</a>
 	{% endif %}
 
 	<table class="table">
     <thead>
       <tr>
         <th>nazwa</th>
-        <th>opis</th>
+        <th>start</th>
+        <th>end</th>
+        <th>status</th>
         <th>akcje</th>
       </tr>
     </thead>
     <tbody>
-	{% for book in books %}
+	{% for book in booking %}
       	<tr>
-			<td>{{ book.name }}</td>
-			<td>{{ book.description }}</td>
+      		<td>{{ book.item.name }}</td>
+			<td>{{ book.start|date('Y-m-d') }}</td>
+			<td>{{ book.end|date('Y-m-d') }}</td>
+			<td>{{ book.status }}</td>
 			{# <td>{% if book.enabled == false %}
 					nie
 				{% else %}
@@ -46,9 +50,6 @@
 					        usuń
 					    </a>
 					{% endif %}
-				    <a class="btn btn-info" href="{{ path('books_booking', {'id': book.id}) }}">
-				        Wypożycz
-				    </a>
 				</div>    
 			</td>
 		</tr>

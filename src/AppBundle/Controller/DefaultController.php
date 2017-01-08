@@ -6,9 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\Booking;
 
 class DefaultController extends Controller
 {
@@ -101,9 +103,18 @@ class DefaultController extends Controller
      * @Route("/books", name="books")
      */
     public function booksAction() {
-        $books = $this->getDoctrine()
-        ->getRepository('AppBundle:Book')
-        ->findAll();
+        $user = $this->getUser();
+        
+        if($this->checkIfAdmin($user)){
+            $books = $this->getDoctrine()
+                ->getRepository('AppBundle:Book')
+                ->findAll();
+        }else{
+            $books = $this->getDoctrine()
+                ->getRepository('AppBundle:Book')
+                ->findAll(); 
+        }
+        dump($books);  
 
         return $this->render('default/books.html.twig', array('books' => $books));
     }
@@ -191,6 +202,77 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('books');
+    }
 
+    /**
+     * @Route("/books/booking/{id}", name="books_booking")
+     */
+    public function bookingBooksAction($id, Request $request) {
+        $book = $this->getDoctrine()
+            ->getRepository('AppBundle:Book')
+            ->find($id);
+
+        $books = new Booking();
+
+        $form = $this->createFormBuilder($books)
+            ->add('start', DateType::class, ['data' => new \DateTime()])
+            ->add('end', DateType::class, ['data' => new \DateTime('+1month')])
+            ->add('save', SubmitType::class, array('label' => 'Wypożycz'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $booking = $form->getData();
+
+            $booking->setItem($book);
+            $booking->setStatus('zarezerwowana');
+            $user = $this->getUser();
+            $booking->setReserving($user);
+
+            $em = $this->getDoctrine()->getManager();
+
+            // tells Doctrine you want to (eventually) save the Product (no queries yet)
+            $em->persist($booking);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $em->flush();
+
+            return $this->redirectToRoute('booking_list');
+        }
+
+        return $this->render('default/booking_book.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/booking/list", name="booking_list")
+     */
+    public function listBookingAction() {
+        $user = $this->getUser();
+        
+        if($this->checkIfAdmin($user)){
+            $booking = $this->getDoctrine()
+                ->getRepository('AppBundle:Booking')
+                ->findAll();
+        }else{
+            $booking = $this->getDoctrine()
+                ->getRepository('AppBundle:Booking')
+                ->findBy(['reserving' => $user->getId()]);
+        }
+
+        return $this->render('default/booking_list.html.twig', array('booking' => $booking));
+    }
+
+    public function checkIfAdmin($user){
+        $roles = $user->getRoles();
+        $admin = false;
+        foreach ($roles as $role) {
+            if($role === "ROLE_ADMIN"){
+                $admin = true;
+            }
+        }
+        return $admin;
     }
 }
