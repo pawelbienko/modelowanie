@@ -35,8 +35,8 @@ class Booking
     /**
      * @var AppBundle\Entity\Book
      *
-     * @ORM\ManyToOne(targetEntity="Book", inversedBy="item")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="booking", cascade={"all"})
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id")
      */
     protected $item;   
 

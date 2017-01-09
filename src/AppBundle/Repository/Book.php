@@ -10,4 +10,19 @@ namespace AppBundle\Repository;
  */
 class Book extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllNotBooked()
+{
+    $query = $this->getEntityManager()
+        ->createQuery(
+            'SELECT b, bk FROM AppBundle:Book b
+            JOIN b.booking bk
+            WHERE bk.status <> :status'
+        )->setParameter('status', 'zarezewowane');
+
+    try {
+        return $query->getResult();
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        return null;
+    }
+}
 }

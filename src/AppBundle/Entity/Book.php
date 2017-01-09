@@ -29,9 +29,9 @@ class Book
     private $description;
 
     /**
-      * @ORM\OneToMany(targetEntity="Booking", mappedBy="item")
+      * @ORM\OneToMany(targetEntity="Booking", mappedBy="item", cascade={"all"})
       */
-    public $item;
+    public $booking;
 
     /**
      * Get id
@@ -95,40 +95,40 @@ class Book
      */
     public function __construct()
     {
-        $this->item = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->booking = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add item
+     * Add booking
      *
-     * @param \AppBundle\Entity\Booking $item
+     * @param \AppBundle\Entity\Booking $booking
      *
      * @return Book
      */
-    public function addItem(\AppBundle\Entity\Booking $item)
+    public function addBooking(\AppBundle\Entity\Booking $booking)
     {
-        $this->item[] = $item;
+        $this->booking[] = $booking;
 
         return $this;
     }
 
     /**
-     * Remove item
+     * Remove booking
      *
-     * @param \AppBundle\Entity\Booking $item
+     * @param \AppBundle\Entity\Booking $booking
      */
-    public function removeItem(\AppBundle\Entity\Booking $item)
+    public function removeBooking(\AppBundle\Entity\Booking $booking)
     {
-        $this->item->removeElement($item);
+        $this->booking->removeElement($booking);
     }
 
     /**
-     * Get item
+     * Get booking
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getItem()
+    public function getBooking()
     {
-        return $this->item;
+        return $this->booking;
     }
 }

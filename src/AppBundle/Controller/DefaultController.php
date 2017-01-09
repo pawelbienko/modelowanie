@@ -112,10 +112,9 @@ class DefaultController extends Controller
         }else{
             $books = $this->getDoctrine()
                 ->getRepository('AppBundle:Book')
-                ->findAll(); 
+                ->findAllNotBooked();
         }
-        dump($books);  
-
+ 
         return $this->render('default/books.html.twig', array('books' => $books));
     }
 
@@ -234,6 +233,7 @@ class DefaultController extends Controller
 
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($booking);
+            //$em->persist($book);
 
             // actually executes the queries (i.e. the INSERT query)
             $em->flush();
@@ -263,6 +263,66 @@ class DefaultController extends Controller
         }
 
         return $this->render('default/booking_list.html.twig', array('booking' => $booking));
+    }
+
+    /**
+     * @Route("/booking/remove/{id}", name="booking_remove")
+     */
+    public function removeBookingAction($id) {
+        //access user manager services 
+
+        $booking = $this->getDoctrine()
+            ->getRepository('AppBundle:Booking')
+            ->find($id); 
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($booking);
+        $em->flush();
+
+        return $this->redirectToRoute('booking_list');
+    }
+
+    /**
+     * @Route("/booking/edit/{id}", name="booking_edit")
+     */
+    public function editBookingAction($id, Request $request) {
+        $booking = $this->getDoctrine()
+            ->getRepository('AppBundle:Booking')
+            ->find($id);
+
+        $form = $this->createFormBuilder($booking)
+            ->add('start', DateType::class, ['data' => new \DateTime()])
+            ->add('end', DateType::class, ['data' => new \DateTime('+1month')])
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'Wypożyczona' => 'wypozyczona',
+                    'Zwrócona' => 'zwrocona',
+                ]
+            ])
+            ->add('save', SubmitType::class, array('label' => 'Update'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $booking = $form->getData();
+            $user = $this->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+
+            // tells Doctrine you want to (eventually) save the Product (no queries yet)
+            $em->persist($booking);
+            //$em->persist($book);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $em->flush();
+
+            return $this->redirectToRoute('booking_list');
+        }
+
+        return $this->render('default/booking_book.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function checkIfAdmin($user){

@@ -43,10 +43,10 @@
 			<td>
 				<div class="btn-group">
 					{% if is_granted('ROLE_ADMIN') -%}
-						<a class="btn btn-primary" href="{{ path('books_edit', {'id': book.id}) }}">
+						<a class="btn btn-primary" href="{{ path('booking_edit', {'id': book.id}) }}">
 					        edytuj
 					    </a>
-					    <a class="btn btn-success" href="{{ path('books_remove', {'id': book.id}) }}">
+					    <a class="btn btn-success" href="{{ path('booking_remove', {'id': book.id}) }}">
 					        usuń
 					    </a>
 					{% endif %}
