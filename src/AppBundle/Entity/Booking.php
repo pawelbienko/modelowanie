@@ -34,7 +34,7 @@ class Booking
     /**
      * @var AppBundle\Entity\Book
      *
-     * @ORM\ManyToOne(targetEntity="Booka", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="id")
      * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     protected $item;    
